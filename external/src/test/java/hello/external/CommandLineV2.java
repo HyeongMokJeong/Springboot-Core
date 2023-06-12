@@ -27,9 +27,9 @@ public class CommandLineV2 {
         List<String> password = applicationArguments.getOptionValues("password");
         List<String> mode = applicationArguments.getOptionValues("mode");
 
-        log.info("url={}", url);
-        log.info("username={}", username);
-        log.info("password={}", password);
-        log.info("mode={}", mode);
+        log.info("url = {}", url);
+        log.info("username = {}", username);
+        log.info("password = {}", password);
+        log.info("mode = {}", mode);
     }
 }
