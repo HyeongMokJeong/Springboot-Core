@@ -1,0 +1,30 @@
+management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+  server:
+    port: 8080
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-components: always
+  #      show-details: always
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "shutdown"
+info:
+  app:
+    name: hello-actuator
+    company: jhm
+
+logging:
+  level:
+    hello.controller: debug
