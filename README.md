@@ -49,6 +49,52 @@ Spring Framework의 복잡한 초기 설정, 빈 등록 문제를 해결하기 �
 스타터는 해당 테마에 필요한 관련 라이브러리를 포함한다.
 
 ## 자동 구성
+- 자동 구성(Auto Configuration)  
+일반적으로 자주 사용하는 수 많은 빈들을 자동으로 등록해주는 기능
+라이브러리를 사용하는 개발자 입장에서, 라이브러리 내부의 빈을 등록하는 작업을 자동으로 처리해준다.
+spring-boot-starter 내부의 spring-boot-autoconfigure에 의해 동작한다.
+
+- @Conditional(Spring), @ConditionalOn*(SpringBoot)  
+같은 소스코드에서 특정 상황일때만 기능이 동작하도록 사용하도록 도와주는 애노테이션  
+자동 구성에서 주로 사용된다.  
+
+- @AutoConfiguration
+자동 구성 기능을 적용할 때 사용하는 애노테이션  
+src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports의 정보를 읽어서 자동 구성으로 사용한다.  
+@SpringBootApplication -> @EnableAutoConfiguration -> @Import(AutoConfigurationImportSelector.class)
+
+
+## 외부설정과 프로필
+외부설정: 환경에 따라 달라지는 설정값(DB URL 등)  
+- OS 환경변수 : OS에서 지원하는 외부 설정
+- 자바 시스템 속성 : JVM 안에서 사용하는 외부 설정(java -D{key}={value} -jar app.jar)
+- 커맨드 라인 인수 : 애플리케이션 실행시점에 외부 설정값을 main(args)의 args 파라미터로 전달하는 방식(java -jar app.jar dataA dataB)
+- 커맨드 라인 옵션 인수 : 스프링에서 편리함을 위해 제공하는 기능(java -jar app.jar --{key}={value})
+- 외부 파일 : 프로그램 외부에서 파일을 직접 읽어서 이용(application.properties)  
+<img src="https://github.com/HBNU-SWUNIV/come-capstone23-kjj/assets/94634916/21228561-2266-4d7d-a55b-1e5bb0b4e079">   
+
+스프링 통합
+- 외부 설정값이 어디에 있든 일관성있고 편리하게 조회할 수 있도록, 스프링은 Environment와 PropertySource라는 추상화를 통해서 해결했다.
+- 스프링은 로딩 시점에 필요한 PropertySource들을 생성하고, Environment에서 사용할 수 있게 연결해 둔다.
+- 같은 값이 존재할 경우, 1. 더 유연한 것, 2. 범위가 좁은 것이 우선권을 가진다.
+
+외부 파일
+- 내부 파일 분리  
+  프로젝트 안에 설정 데이터를 포함하여 관리한다.(application-{profile}.properties)  
+  실행할 때 환경을 구분하여 설정 데이터를 읽는다.(spring.profiles.active={profile})
+- 내부 파일 합체
+  하나의 파일에서 논리적으로 영역을 구분한다(#--- or !---, spring.config.activate.on-profile={profile})  
+
+외부설정 사용
+- Environment
+- @Value
+- @ConfigurationProperties
+  외부 설정의 묶음 정보를 객체로 변환하는 기능(타입 안전한 설정 속성)
+
+@Profile("{profile}")
+- 해당 프로필이 활성화 된 경우에만 동작한다.
+- 프로필 별로 빈을 구분할 수 있다.
+- 내부적으로 @Conditional을 사용한다.
 
 ## 참고 강의
 인프런 김영한님
